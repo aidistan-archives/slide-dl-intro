@@ -1,176 +1,429 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-	<title>Shower Presentation Engine</title>
+	<title>DL Introduction</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=792, user-scalable=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+	<link rel="stylesheet" href="main.css">
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+			tex2jax: {
+				inlineMath: [['$','$'], ['\\(','\\)']],
+				processEscapes: true
+			},
+			"HTML-CSS": {
+				linebreaks: {
+					automatic: true
+				},
+				scale: 85
+			},
+			SVG: {
+				linebreaks: {
+					automatic: true
+				}
+			}
+		});
+	</script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body class="list">
 	<header class="caption">
-		<h1>Shower Presentation Engine</h1>
-		<p>Yours Truly, Famous Inc.</p>
+		<h1>A Shallow Introduction to Deep Learning</h1>
+		<p>Aidi Stan | Nov 4, 2014</p>
 	</header>
 	<section class="slide cover" id="Cover"><div>
-		<h2>Shower Presentation Engine</h2>
-		<p>Brought to you by <a href="http://pepelsbey.net">Vadim Makeev</a></p>
-		<img src="pictures/cover.jpg" alt="">
-		<!--
-			To apply styles to the certain slides
-			set slide ID to get needed elements
-			-->
-		<style>
-			#Cover h2 {
-				margin:30px 0 0;
-				color:#FFF;
-				text-align:center;
-				font-size:70px;
-				}
-			#Cover p {
-				margin:10px 0 0;
-				text-align:center;
-				color:#FFF;
-				font-style:italic;
-				font-size:20px;
-				}
-				#Cover p a {
-					color:#FFF;
-					}
-		</style>
+		<h2>A Shallow Introduction to<br />Deep Learning</h2>
+		<img src="pictures/cover.jpg">
 	</div></section>
 	<section class="slide"><div>
-		<h2>Shower Key Features</h2>
-		<ol>
-			<li>Built on HTML, CSS and vanilla JavaScript</li>
-			<li>All modern browsers are supported</li>
-			<li>Slide themes are separated from engine</li>
-			<li>Fully keyboard accessible</li>
-			<li>Printable to PDF</li>
-		</ol>
-		<p class="note">Shower ['ʃəuə] noun. A person or thing that shows.</p>
+		<h2>Artificial neuron</h2>
+		<center><img src="pictures/neuron.png" height="200"></center>
+		$$h_{W,b}(x)=f(W^Tx)=f(\sum_{i=1}^3 W_ix_i + b)$$
 	</div></section>
 	<section class="slide"><div>
-		<h2>Plain Text on Your Slides</h2>
-		<p>Lorem ipsum dolor sit amet, consectetur <a href="#4">adipisicing</a> elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <em>quis nostrud</em> exercitation ullamco laboris <strong>nisi ut aliquip</strong> ex ea commodo consequat. Duis aute irure <i>dolor</i> in reprehenderit in voluptate velit esse cillum <b>dolore</b> eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in <code>&lt;culpa&gt;</code> qui officia deserunt mollit anim id est laborum.</p>
+		<h2>Activition function</h2>
+		$$f(z)=sigm(z)=\frac{1}{1+\exp(-z)}$$
+		<center><img src="pictures/activation_functions.png" height="350"></center>
 	</div></section>
 	<section class="slide"><div>
-		<h2>All Kind of Lists</h2>
-		<ol>
-			<li>Simple lists are marked with bullets</li>
-			<li>Ordered lists begin with a number</li>
-			<li>You can even nest lists one inside another
-				<ul>
-					<li>Or mix their types</li>
-					<li>But do not go too far</li>
-					<li>Otherwise audience will be bored</li>
-				</ul>
+		<h2>Neural network (NN)</h2>
+		<center><img src="pictures/NN.png" height="420"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Calculate the output</h2>
+		<p>Let \(a_i^{(l)}\) denote the <b>activation</b> of unit <i>i</i> in layer <i>l</i>, we can propagate the inputs through the network</p>
+		$$\begin{align}
+			a_1^{(2)} &= f(W_{11}^{(1)}x_1 + W_{12}^{(1)} x_2 + W_{13}^{(1)} x_3 + b_1^{(1)})  \\
+			a_2^{(2)} &= f(W_{21}^{(1)}x_1 + W_{22}^{(1)} x_2 + W_{23}^{(1)} x_3 + b_2^{(1)})  \\
+			a_3^{(2)} &= f(W_{31}^{(1)}x_1 + W_{32}^{(1)} x_2 + W_{33}^{(1)} x_3 + b_3^{(1)})  \\
+			h_{W,b}(x) &= a_1^{(3)} =  f(W_{11}^{(2)}a_1^{(2)} + W_{12}^{(2)} a_2^{(2)} + W_{13}^{(2)} a_3^{(2)} + b_1^{(2)}) 
+		\end{align}$$
+	</div></section>
+	<section class="slide"><div>
+		<h2>Vectorize the equations</h2>
+		<ul>
+			<li>Let \(z_i^{(l)}\) denote the total weighted sum of inputs to unit <i>i</i> in layer <i>l</i>, including the bias term</li>
+			<li>Let \(f(\cdot )\) apply to vectors element-wisely: \(f([x, y])=[f(x), f(y)]\)</li>
+		</ul>
+		$$\begin{align}
+			z^{(2)} &= W^{(1)} x + b^{(1)} \\
+			a^{(2)} &= f(z^{(2)}) \\
+			z^{(3)} &= W^{(2)} a^{(2)} + b^{(2)} \\
+			h_{W,b}(x) &= a^{(3)} = f(z^{(3)})
+		\end{align}$$
+	</div></section>
+	<section class="slide"><div>
+		<h2>Forward propagation</h2>
+		<p>More generally</p>
+		$$\begin{align}
+			z^{(l+1)} &= W^{(l)} a^{(l)} + b^{(l)}   \\
+			a^{(l+1)} &= f(z^{(l+1)})
+		\end{align}$$
+		<p>We call this step <b>forward propagation</b>.</p>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Training NNs</h2>
+		<p>It's straight to use <i>m</i> samples \(\left\{(x^{(i)},y^{(i)})\right\}\) to train the model, by minimizing the <b>cost function</b>, which we define to be</p>
+		$$J(W,b)
+			= \frac{1}{m} \sum_{i=1}^m \left( \frac{1}{2} \left\| h_{W,b}(x^{(i)}) - y^{(i)} \right\|^2 \right)
+			+ \frac{\lambda}{2} \sum_{l=1}^{n_l-1} \; \sum_{i=1}^{s_l} \; \sum_{j=1}^{s_{l+1}} \left( W^{(l)}_{ji} \right)^2
+		$$
+	</div></section>
+	<section class="slide"><div>
+		<h2>Gradient descent</h2>
+		<p>One iteration of gradient descent updates the parameters as follows</p>
+		$$\begin{align}
+			W_{ij}^{(l)} &\rightarrow W_{ij}^{(l)} - \alpha \frac{\partial}{\partial W_{ij}^{(l)}} J(W,b) \\
+			b_{i}^{(l)} &\rightarrow b_{i}^{(l)} - \alpha \frac{\partial}{\partial b_{i}^{(l)}} J(W,b)
+		\end{align}$$
+		<p>where \(\alpha\) is the learning rate.</p>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Backpropagation <small>David et al., Nature, 1986</small></h2>
+		<p>A efficient way to compute those partial derivatives</p>
+		<ul>
+			<li>Initialize all the parameters randomly</li>
+			<li>Perform a forward propagation, computing the activations for all layers</li>
+
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<ul>
+			<li>For the output layer (layer \(n_l\))
+				$$\delta^{(n_l)} = - (y - a^{(n_l)}) \bullet f'(z^{(n_l)})$$
 			</li>
-			<li>Look, seven rows exactly!</li>
+			<li>For other layers, from \(n_{l-1}\) down to \(n_1\)
+				$$\delta^{(l)} = \left((W^{(l)})^T \delta^{(l+1)}\right) \bullet f'(z^{(l)})$$
+			</li>
+			<li>Compute the desired partial derivatives
+				$$\begin{align}
+					\nabla_{W^{(l)}} J(W,b;x,y) &= \delta^{(l+1)} (a^{(l)})^T, \\
+					\nabla_{b^{(l)}} J(W,b;x,y) &= \delta^{(l+1)}.
+				\end{align}$$
+			</li>
+		</ul> 
+	</div></section>
+	<section class="slide"><div>
+		<h2>NN seems promising <small>in the late 1980s</small></h2>
+		<img src="pictures/forward_propagation.png" height="400">
+	</div></section>
+	<section class="slide"><div>
+		<h2>NN seems promising <small>in the late 1980s</small></h2>
+		<img src="pictures/backpropagation.png" height="400">
+	</div></section>
+	<section class="slide"><div>
+		<h2>Towards deeper NNs?</h2>
+		<center><img src="pictures/DNN.png" height="400"></center>
+	</div></section>
+	<section class="slide section"><div>
+		<h2>Why go deep?</h2>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Visual cortex is hierarchical</h2>
+		<center><img src="pictures/visual_cortex.jpg" height="300"></center>
+		<p>David H. Hubel et al., The Journal of physiology, 1962<br />Nobel Prize in Physiology or Medicine (1981)</p>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Different levels of abstraction</h2>
+		<center><img src="pictures/abstraction.png" height="420"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Efficient representation</h2>
+		<ul>
+			<li>A deep architecture trades space for time (or breadth for depth)<ul>
+				<li>more layers, more sequential computation</li>
+				<li>but less hardware (units), less parallel computation</li>
+			</ul></li>
+			<li>Example: N-bit parity<ul>
+				<li>requires N-1 XOR gates in a tree of depth log(N).</li>
+				<li>requires an exponential number of gates if only 2 layers (Disjunctive normal form formula)</li>
+			</ul></li>
+		</ul>
+	</div></section>
+	<section class="slide section"><div>
+		<h2>Rolling in the deep</h2>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Deep neural network (DNN)</h2>
+		<ul>
+			<li>Simple to construct<ul>
+				<li>Sigmoid nonlinearity for hidden layers</li>
+				<li><b>Softmax</b> for the output layer</li>
+			</ul></li>
+			<li>Hard to train<ul>
+				<li>Backpropagation does not work well</li>
+				<li>Even worse than shallow neural networks
+					<img src="pictures/deep_net_without_pre-training.png" width="500" style="margin:0 0 0 0">
+				</li>
+			</ul></li>
+		</ul>
+		
+	</div></section>
+	<section class="slide"><div>
+		<h2>Difficulty of training DNNs <small>(1990s)</small></h2>
+		<ul>
+			<li>Availability of data<ul>
+				<li>Labeled data is often scarce</li>
+				<li>Not enough examples to fit the parameters of a complex model</li>
+			</ul></li>
+			<li>Local optima<ul>
+				<li>A highly non-convex optimization problem</li>
+				<li>Easily gets stuck in local minima</li>
+			</ul></li>
+			<li>Diffusion of gradients<ul>
+				<li>Below top few layers, correction signal is minimal</li>
+			</ul></li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Other models dominanted the world</h2>
+		<img src="pictures/ml_pipeline.png" width="780">
+	</div></section>
+	<section class="slide"><div>
+		<h2>Hand-crafted visual features</h2>
+		<center><img src="pictures/visual_features.jpg" height="420"></center>
+	</div></section>
+	<section class="slide section"><div>
+		<h2>Stacked autoencoder</h2>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Autoencoder</h2>
+		<center><img src="pictures/AE.png" height="420"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Sparse autoencoder</h2>
+		<p>A sparsity constraint is imposed</p>
+		$$J_{sparse}(W,b)=J(W,b)+\beta\sum_{j=1}^{s_2}KL(\rho\|\hat\rho_j)$$
+		<p>where \(\beta\) controls the weight, \(\hat\rho_j=\frac{1}{m}\sum_{i=1}^m \left[a_j^{(2)}(x^{(i)})\right]\), \(\rho\) is a sparsity parameter and \(KL(\rho\|\hat\rho_j)=\rho\log\frac{\rho}{\hat\rho_j} + (1-\rho)\log\frac{1-\rho}{1-\hat\rho_j}\) is the Kullback-leibler (KL) divergence</p>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Softmax regression</h2>
+		<p>A generalization of logistic regression</p>
+		$$h_\theta(\mathbf{x}^{(i)}) = \left[ \begin{aligned}
+			P(y^{(i)} =& 1 | \mathbf{x}^{(i)}, \theta) \\
+			P(y^{(i)} =& 2 | \mathbf{x}^{(i)}, \theta) \\
+			&\vdots \\\
+			P(y^{(i)} =& k | \mathbf{x}^{(i)}, \theta)
+			\end{aligned} \right] = \frac{1}{\sum_{j=1}^k e^{\boldsymbol\theta_j^T \mathbf{x}^{(i)}}} 
+			\left[ \begin{aligned}
+			&e^{\boldsymbol\theta_1^T \mathbf{x}^{(i)}} \\
+			&e^{\boldsymbol\theta_2^T \mathbf{x}^{(i)}} \\
+			&\vdots \\\
+			&e^{\boldsymbol\theta_k^T \mathbf{x}^{(i)}}
+		\end{aligned} \right]$$
+	</div></section>
+	<section class="slide"><div>
+		<h2>Stacked auotencoder</h2>
+		<center><img src="pictures/SAE.png"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Deep network training <small>Hinton, Science, 2006</small></h2>
+		<ul>
+			<li>Use unsupervised learning (greedy layer-wise training)<ul>
+				<li>Allows abstraction to develop naturally from one layer</li>
+				<li>Help the network initialize with good parameters</li>
+			</ul></li>
+			<li>Perform supervised top-down training as final step<ul>
+				<li>Refine the features (intermediate layers) so that they become more relevant to the task</li>
+			</ul></li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<center><img src="pictures/hinton.2006.png" height="500"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Denoising autoencoder <small>Vincent et.al., 2008</small></h2>
+		<img src="pictures/DAE.png">
+		<p>Further, we have stacked denoising autoencoders</p>
+	</div></section>
+	<section class="slide section"><div>
+		<h2>Time to have an overview</h2>
+	</div></section>
+	<section class="slide"><div>
+		<center><img src="pictures/overview1.png" width="780"></center>
+	</div></section>
+	<section class="slide"><div>
+		<center><img src="pictures/overview2.png" width="780"></center>
+	</div></section>
+	<section class="slide"><div>
+		<center><img src="pictures/overview3.png" width="780"></center>
+	</div></section>
+	<section class="slide section"><div>
+		<h2>DBM & DBN</h2>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Restricted Boltzmann Machines</h2>
+		<center><img src="pictures/RBM.jpg" height="300"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Deep Boltzman Machine <small>Salakhutdinov & Hinton, 2009</small></h2>
+		<center><img src="pictures/DBM.png" height="420"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>DBMs vs DBNs</h2>
+		<center><img src="pictures/DBMtoDBN.png" height="360"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Deep Belief Network <small>Hinton et.al., 2006</small></h2>
+		<center><img src="pictures/DBN.png" height="420"></center>
+	</div></section>
+	<section class="slide section"><div>
+		<h2>Convolutional neural network</h2>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Fully-connected neural net in high dim</h2>
+		<center><img src="pictures/CNN_fully-connected.png" height="420"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Shared weights</h2>
+		<center><img src="pictures/CNN_shared_weights.png"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Different kernels</h2>
+		<center><img src="pictures/CNN_different_kernels.png" height="420"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Convolutional neural network</h2>
+		<center><img src="pictures/CNN.png" height="420"></center>
+	</div></section>
+	<section class="slide section"><div>
+		<h2>Deep Learning in Industry</h2>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Microsoft</h2>
+		<ul>
+			<li>Speech recognition, 2009</li>
+			<li>Speech translation technology, 2012</li>
+			<li>Skype translator, 2014</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Demo <small>in Tianjin, Oct 2012</small></h2>
+		<center><video width="420" height="320" controls>
+			<source src="videos/2012.msr.mp4" type="video/mp4">
+			Your browser does not support the video tag.
+		</video></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Demo <small>on WPC, Jul 2014</small></h2>
+		<center><img src="pictures/skype.jpg" width="780"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Google</h2>
+		<center><img src="pictures/google.jpg" width="150"></center>
+		<ul>"Google Brain" project since 2011
+			<li>Company-wise large-scale deep learning infrastructure</li>
+			<li>Big success on images, speech and natural language processing</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Baidu</h2>
+		<ul>
+			<li>Institute of Deep Learning (IDL), Jan 2013</li>
+			<li>Baidu Shitu, Nov 2013
+				<center><img src="pictures/baidu1.jpg" height="313px"></center>
+			</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Baidu</h2>
+		<li>Product image retriever, Aug 2014
+			<center><img src="pictures/baidu2.jpg" height="350px"></center>
+		</li>
+	</div></section>
+	<section class="slide section"><div>
+		<h2>Challenges of Deep Learning</h2>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Understanding</h2>
+		<ul>
+			<li>Deep Learning involves non-convex loss functions<ul>
+				<li>With non-convex losses, all bets are off</li>
+				<li>But to some of us all    interesting    learning is non convex</li>
+			</ul></li>
+			<li>Hard to prove anything about deep learning, yet theories emerge<ul>
+				<li>Scattering transform, Mallat</li>
+				<li>Split Bregman   , Osher</li>
+				<li>Algebraic geometry of DBN, Morton</li>
+				<li>...</li>
+			</ul></li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Scaling</h2>
+		<p>A large scale problem has lots of training samples (>10M), lots of classes (>10K) and lots of input dimensions (>10K).</p>
+		<ul>
+			<li>Layters can not be trained independently and in parallel</li>
+			<li>Model can have lots of parameters that may clog the network</li>
+		</ul>
+		<p></p>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Model parallelism <small>Jeffrey Dean et al., 2012</small></h2>
+		<center><img src="pictures/model_parallelism.png" height="420"></center>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Data parallelism <small>Jeffrey Dean et al., 2012</small></h2>
+		<center><img src="pictures/data_parallelism.png" width="780"></center>
+	</div></section>
+	<section class="slide reference"><div>
+		<h2>Image credit</h2>
+		<ol style="font-size: 80%;">
+			<li>IDL, Baidu Inc.<a href="http://idl.baidu.com/IDL-news-11.html">http://idl.baidu.com/IDL-news-11.html</a></li>
+			<li>UFLDL tutorial, Stanford Univ. <a href="http://ufldl.stanford.edu/">http://ufldl.stanford.edu/</a></li>
+			<li>Microsoft Research <a href="http://research.microsoft.com/apps/video/default.aspx?id=225021">http://research.microsoft.com/apps/video/default.aspx?id=225021</a></li>
 		</ol>
 	</div></section>
 	<section class="slide"><div>
-		<h2>Serious Citations</h2>
-		<figure>
-			<blockquote>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p>
-			</blockquote>
-			<figcaption>Marcus Tullius Cicero</figcaption>
-		</figure>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Code Samples</h2>
-		<pre>
-			<code>&lt;!DOCTYPE html&gt;</code>
-			<code>&lt;html lang="en"&gt;</code>
-			<code><mark>&lt;head&gt;</mark> <mark class="comment">&lt;!--Comment--&gt;</mark></code>
-			<code>    &lt;title&gt;Shower&lt;/title&gt;</code>
-			<code>    &lt;meta charset="<mark class="important">UTF-8</mark>"&gt;</code>
-			<code>    &lt;link rel="stylesheet" href="screen.css"&gt;</code>
-			<code><mark>&lt;/head&gt;</mark></code>
-		</pre>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Even Tables</h2>
-		<table>
-		<tr>
-			<th scope="col">Locavore</th>
-			<th>Umami</th>
-			<th>Helvetica</th>
-			<th>Vegan</th>
-		</tr>
-		<tr>
-			<th scope="row">Fingerstache</th>
-			<td>Kale</td>
-			<td>Chips</td>
-			<td>Keytar</td>
-		</tr>
-		<tr>
-			<th scope="row">Sriracha</th>
-			<td>Gluten-free</td>
-			<td>Ennui</td>
-			<td>Keffiyeh</td>
-		</tr>
-		<tr>
-			<th scope="row">Thundercats</th>
-			<td>Jean</td>
-			<td>Shorts</td>
-			<td>Biodiesel</td>
-		</tr>
-		<tr>
-			<th scope="row">Terry</th>
-			<td>Richardson</td>
-			<td>Swag</td>
-			<td>Blog</td>
-		</tr>
-		</table>
-		<p>It’s good to have information organized.</p>
-	</div></section>
-	<section class="slide cover" id="Picture"><div>
-		<h2>Pictures</h2>
-		<img src="pictures/picture.jpg" alt="">
-		<style>
-			#Picture h2 {
-				color:#FFF;
-				}
-		</style>
-	</div></section>
-	<section class="slide shout"><div>
-		<h2>You can even shout this way</h2>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Inner Navigation</h2>
-		<ol>
-			<li>Lets you reveal list items one by one</li>
-			<li class="next">To keep some key points</li>
-			<li class="next">In secret from audience</li>
-			<li class="next">But it will work only once</li>
-			<li class="next">Nobody wants to see the same joke twice</li>
+		<h2>Reference</h2>
+		<ol style="font-size: 55%;">
+			<li>Rumelhart, D.E., Hinton, G.E. and Williams, R.J. (1986) Learning representations by back-propagating errors, Nature, 323, 533-536.</li>
+			<li>Hubel, D.H. and Wiesel, T.N. (1962) Receptive fields, binocular interaction and functional architecture in the cat's visual cortex, The Journal of physiology, 160, 106.</li>
+			<li>Bengio, Yoshua, et al. "Greedy layer-wise training of deep networks." Advances in neural information processing systems 19 (2007): 153.</li>
+			<li>Hinton, G.E. (2006) Reducing the Dimensionality of Data with Neural Networks, Science, 313, 504-507.</li>
+			<li>Vincent, Pascal, et al. "Extracting and composing robust features with denoising autoencoders." Proceedings of the 25th international conference on Machine learning. ACM, 2008.</li>
+			<li>Salakhutdinov, Ruslan, and Geoffrey E. Hinton. "Deep boltzmann machines." International Conference on Artificial Intelligence and Statistics. 2009.</li>
+			<li>Hinton, Geoffrey, Simon Osindero, and Yee-Whye Teh. "A fast learning algorithm for deep belief nets." Neural computation 18.7 (2006): 1527-1554.</li>
+			<li>Dean, J., Corrado, G., Monga, R., Chen, K., Devin, M., Mao, M., Senior, A., Tucker, P., Yang, K., Le, Q.V. and Others (2012) Large scale distributed deep networks.., 1223-1231.</li>
 		</ol>
+	</div></section>
+	<section class="slide" id="End"><div>
+		<h2>The End<br /><small>Thanks for your time</small></h2>
 	</div></section>
 	<section class="slide shout" id="SeeMore"><div>
-		<h2><img src="pictures/logo.svg" alt=""> <a href="https://github.com/shower/shower">See more on GitHub</a></h2>
-		<style>
-			#Picture h2 {
-				color:#FFF;
-				}
-			#SeeMore h2 {
-				font-size:100px
-				}
-			#SeeMore img {
-				width:0.72em;
-				height:0.72em;
-				}
-		</style>
+		<h2><a href="https://github.com/aidistan/dl-intro">See more on GitHub</a></h2>
 	</div></section>
-	<p class="badge"><a href="https://github.com/shower/shower">Fork me on Github</a></p>
+	<p class="badge"><a href="https://github.com/aidistan/dl-intro">See more on Github</a></p>
 	<!--
+	123
 		To hide progress bar from entire presentation
-		just remove “progress” element.
+		just remove    progress    element.
 		-->
 	<div class="progress"><div></div></div>
 	<script src="shower/shower.min.js"></script>
-	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
+	<!-- Copyright    2014 Yours Truly, Famous Inc. -->
 	<!-- Photos by John Carey, fiftyfootshadows.net -->
 </body>
 </html>
