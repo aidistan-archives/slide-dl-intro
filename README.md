@@ -160,12 +160,12 @@ Rolling in the deep (在黑暗中翻滚)
 - Convex learning is invariant to the order in which sample are presented
 - Human learning isn't like that: we learn simple concepts before complex ones. The order in which we learn things matter.
 
-### Scaling
+## Scaling
 
-## Model parallelism
+### Model parallelism
 
 An example of model parallelism in DistBelief. A five layer deep neural network with local connectivity is shown here, partitioned across four machines (blue rectangles). Only those nodes with edges that cross partition boundaries (thick lines) will need to have their state transmitted between machines. Even in cases where a node has multiple edges crossing a partition boundary, its state is only sent to the machine on the other side of that boundary once. Within each partition, computation for individual nodes will the parallelized across all available CPU cores.
 
-## Data parallelism
+### Data parallelism
 
 Left: Downpour SGD. Model replicas asynchronously fetch parameters w and push gradients w to the parameter server. Right: Sandblaster L-BFGS. A single ‘coordinator’ sends small messages to replicas and the parameter server to orchestrate batch optimization.

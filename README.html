@@ -999,33 +999,7 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-MathJax.Hub.Config({
-  config: ["MMLorHTML.js"],
-  extensions: ["tex2jax.js"],
-  jax: ["input/TeX"],
-  tex2jax: {
-    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-    processEscapes: false
-  },
-  TeX: {
-    extensions: ["AMSmath.js", "AMSsymbols.js"],
-    TagSide: "right",
-    TagIndent: ".8em",
-    MultLineWidth: "85%",
-    equationNumbers: {
-      autoNumber: "AMS",
-    },
-    unicode: {
-      fonts: "STIXGeneral,'Arial Unicode MS'"
-    }
-  },
-  showProcessingMessages: false
-});
-</script>
-<title>README</title></head><body><article class="markdown-body"><h1 id="dl-intro"><a name="user-content-dl-intro" href="#dl-intro" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>dl-intro</h1>
+</style><title>README</title></head><body><article class="markdown-body"><h1 id="dl-intro"><a name="user-content-dl-intro" href="#dl-intro" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>dl-intro</h1>
 <p>A shallow introdcution to deep learning.</p>
 <h2 id="prelude"><a name="user-content-prelude" href="#prelude" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Prelude</h2>
 <h3 id="artificial-neuron"><a name="user-content-artificial-neuron" href="#artificial-neuron" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Artificial neuron</h3>
@@ -1073,7 +1047,7 @@ MathJax.Hub.Config({
 </ul>
 <h3 id="backpropagation"><a name="user-content-backpropagation" href="#backpropagation" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Backpropagation</h3>
 <ul>
-<li>It&rsquo;s important to initialize the parameters randomly, rather than to all 0   s. If all the parameters start off at identical values, then all the hidden layer units will end up learning the same function of the input.</li>
+<li>It&rsquo;s important to initialize the parameters randomly, rather than to all 0’s. If all the parameters start off at identical values, then all the hidden layer units will end up learning the same function of the input.</li>
 </ul>
 <h3 id="nn-seems-promising"><a name="user-content-nn-seems-promising" href="#nn-seems-promising" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>NN seems promising</h3>
 <ul>
@@ -1092,12 +1066,12 @@ MathJax.Hub.Config({
 <h3 id="different-levels-of-abstraction"><a name="user-content-different-levels-of-abstraction" href="#different-levels-of-abstraction" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Different Levels of Abstraction</h3>
 <ul>
 <li>Natural progression from low level to high level structure as seen in natural complexity<br />
-    Easier to monitor what is being learnt and to guide the machine to better subspaces<br />
-    A good lower level representation can be used for many distinct tasks</li>
+– Easier to monitor what is being learnt and to guide the machine to better subspaces<br />
+– A good lower level representation can be used for many distinct tasks</li>
 </ul>
 <h3 id="efficient-representation"><a name="user-content-efficient-representation" href="#efficient-representation" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Efficient representation</h3>
 <h2 id="rolling-in-the-deep"><a name="user-content-rolling-in-the-deep" href="#rolling-in-the-deep" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Rolling in the deep</h2>
-<p>Rolling in the deep (                  )</p>
+<p>Rolling in the deep (在黑暗中翻滚)</p>
 <h3 id="deep-neural-networks"><a name="user-content-deep-neural-networks" href="#deep-neural-networks" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Deep neural networks</h3>
 <ul>
 <li>Related to the multilayer perceptron<ul>
@@ -1123,7 +1097,7 @@ MathJax.Hub.Config({
 <li>Until 2006</li>
 </ul>
 <blockquote>
-<p>                        Hinton                                                                                                            </p>
+<p>一位痴心的老先生Hinton，他坚持了下来，并最终（和其它人一起）提出了一个实际可行的深度学习框架。</p>
 </blockquote>
 <ul>
 <li>On the other hand, big data era was emerging. We need more powerful algorithms.</li>
@@ -1187,8 +1161,8 @@ MathJax.Hub.Config({
 <li>Convex learning is invariant to the order in which sample are presented</li>
 <li>Human learning isn&rsquo;t like that: we learn simple concepts before complex ones. The order in which we learn things matter.</li>
 </ul>
-<h3 id="scaling"><a name="user-content-scaling" href="#scaling" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Scaling</h3>
-<h2 id="model-parallelism"><a name="user-content-model-parallelism" href="#model-parallelism" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Model parallelism</h2>
+<h2 id="scaling"><a name="user-content-scaling" href="#scaling" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Scaling</h2>
+<h3 id="model-parallelism"><a name="user-content-model-parallelism" href="#model-parallelism" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Model parallelism</h3>
 <p>An example of model parallelism in DistBelief. A five layer deep neural network with local connectivity is shown here, partitioned across four machines (blue rectangles). Only those nodes with edges that cross partition boundaries (thick lines) will need to have their state transmitted between machines. Even in cases where a node has multiple edges crossing a partition boundary, its state is only sent to the machine on the other side of that boundary once. Within each partition, computation for individual nodes will the parallelized across all available CPU cores.</p>
-<h2 id="data-parallelism"><a name="user-content-data-parallelism" href="#data-parallelism" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Data parallelism</h2>
-<p>Left: Downpour SGD. Model replicas asynchronously fetch parameters w and push gradients w to the parameter server. Right: Sandblaster L-BFGS. A single    coordinator    sends small messages to replicas and the parameter server to orchestrate batch optimization.</p></article></body></html>
+<h3 id="data-parallelism"><a name="user-content-data-parallelism" href="#data-parallelism" class="headeranchor-link"  aria-hidden="true"><span class="headeranchor"></span></a>Data parallelism</h3>
+<p>Left: Downpour SGD. Model replicas asynchronously fetch parameters w and push gradients w to the parameter server. Right: Sandblaster L-BFGS. A single ‘coordinator’ sends small messages to replicas and the parameter server to orchestrate batch optimization.</p></article></body></html>
