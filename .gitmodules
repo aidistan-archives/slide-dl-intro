@@ -1,0 +1,9 @@
+[submodule "shower/core"]
+	path = vendor/shower/core
+	url = git@github.com:shower/core.git
+[submodule "shower/bright"]
+	path = vendor/shower/bright
+	url = git@github.com:shower/bright.git
+[submodule "shower/ribbon"]
+	path = vendor/shower/ribbon
+	url = git@github.com:shower/ribbon.git
