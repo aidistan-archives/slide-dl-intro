@@ -1,0 +1,461 @@
+!!!5
+%html{lang: 'en'}
+  %head
+    %title DL Introduction
+
+    %meta{charset: 'utf-8'}
+    %meta{name: 'viewport', content: 'width=792, user-scalable=no'}
+    %meta{'http-equiv' => 'x-ua-compatible', content: 'ie=edge'}
+    %link{rel: 'stylesheet', href: 'vendor/shower/ribbon/styles/screen.css'}
+    %link{rel: 'stylesheet', href: 'assets/css/index.css'}
+
+    :javascript
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          processEscapes: true
+        },
+        "HTML-CSS": {
+          linebreaks: {
+            automatic: true
+          },
+          scale: 85
+        },
+        SVG: {
+          linebreaks: {
+            automatic: true
+          }
+        }
+      });
+
+    %script{type: 'text/javascript', src: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'}
+
+  %body.list
+    %header.caption
+      %h1 A Shallow Introduction to Deep Learning
+      %p Aidi Stan | Nov 4, 2014
+    %p.badge
+      %a{href: 'https://github.com/aidistan/dl-intro'} See more on Github
+
+    %section#Cover.slide.cover
+      %div
+        %h2 A Shallow Introduction to<br />Deep Learning
+        %img{src: 'assets/images/cover.jpg'}
+    %section.slide
+      %div
+        %h2 Artificial neuron
+        %center
+          %img{src: 'assets/images/neuron.png', height: 200}
+        $$h_{W,b}(x)=f(W^Tx)=f(\sum_{i=1}^3 W_ix_i + b)$$
+    %section.slide
+      %div
+        %h2 Activition function
+        $$f(z)=sigm(z)=\frac{1}{1+\exp(-z)}$$
+        %center
+          %img{src: 'assets/images/activation_functions.png', height: 350}
+    %section.slide
+      %div
+        %h2 Neural network (NN)
+        %center
+          %img{src: 'assets/images/NN.png', height: 420}
+    %section.slide
+      %div
+        %h2 Calculate the output
+        %p Let \(a_i^{(l)}\) denote the <b>activation</b> of unit <i>i</i> in layer <i>l</i>, we can propagate the inputs through the network
+        :plain
+          $$\begin{align}
+            a_1^{(2)} &= f(W_{11}^{(1)}x_1 + W_{12}^{(1)} x_2 + W_{13}^{(1)} x_3 + b_1^{(1)})  \\
+            a_2^{(2)} &= f(W_{21}^{(1)}x_1 + W_{22}^{(1)} x_2 + W_{23}^{(1)} x_3 + b_2^{(1)})  \\
+            a_3^{(2)} &= f(W_{31}^{(1)}x_1 + W_{32}^{(1)} x_2 + W_{33}^{(1)} x_3 + b_3^{(1)})  \\
+            h_{W,b}(x) &= a_1^{(3)} =  f(W_{11}^{(2)}a_1^{(2)} + W_{12}^{(2)} a_2^{(2)} + W_{13}^{(2)} a_3^{(2)} + b_1^{(2)})
+          \end{align}$$
+    %section.slide
+      %div
+        %h2 Vectorize the equations
+        %ul
+          %li Let \(z_i^{(l)}\) denote the total weighted sum of inputs to unit <i>i</i> in layer <i>l</i>, including the bias term
+          %li Let \(f(\cdot )\) apply to vectors element-wisely: \(f([x, y])=[f(x), f(y)]\)
+        :plain
+          $$\begin{align}
+            z^{(2)} &= W^{(1)} x + b^{(1)} \\
+            a^{(2)} &= f(z^{(2)}) \\
+            z^{(3)} &= W^{(2)} a^{(2)} + b^{(2)} \\
+            h_{W,b}(x) &= a^{(3)} = f(z^{(3)})
+          \end{align}$$
+    %section.slide
+      %div
+        %h2 Forward propagation
+        %p More generally
+        :plain
+          $$\begin{align}
+            z^{(l+1)} &= W^{(l)} a^{(l)} + b^{(l)}   \\
+            a^{(l+1)} &= f(z^{(l+1)})
+          \end{align}$$
+        %p We call this step <b>forward propagation</b>.
+    %section.slide
+      %div
+        %h2 Training NNs
+        %p It's straight to use <i>m</i> samples \(\left\{(x^{(i)},y^{(i)})\right\}\) to train the model, by minimizing the <b>cost function</b>, which we define to be
+        :plain
+          $$J(W,b)
+            = \frac{1}{m} \sum_{i=1}^m \left( \frac{1}{2} \left\| h_{W,b}(x^{(i)}) - y^{(i)} \right\|^2 \right)
+            + \frac{\lambda}{2} \sum_{l=1}^{n_l-1} \; \sum_{i=1}^{s_l} \; \sum_{j=1}^{s_{l+1}} \left( W^{(l)}_{ji} \right)^2
+          $$
+    %section.slide
+      %div
+        %h2 Gradient descent
+        %p One iteration of gradient descent updates the parameters as follows
+        :plain
+          $$\begin{align}
+            W_{ij}^{(l)} &\rightarrow W_{ij}^{(l)} - \alpha \frac{\partial}{\partial W_{ij}^{(l)}} J(W,b) \\
+            b_{i}^{(l)} &\rightarrow b_{i}^{(l)} - \alpha \frac{\partial}{\partial b_{i}^{(l)}} J(W,b)
+          \end{align}$$
+        %p where \(\alpha\) is the learning rate.
+    %section.slide
+      %div
+        %h2 Backpropagation <small>David et al., Nature, 1986</small>
+        %p A efficient way to compute those partial derivatives
+        %ul
+          %li Initialize all the parameters randomly
+          %li Perform a forward propagation, computing the activations for all layers
+    %section.slide
+      %div
+        %ul
+          %li
+            For the output layer (layer \(n_l\))
+            $$\delta^{(n_l)} = - (y - a^{(n_l)}) \bullet f'(z^{(n_l)})$$
+          %li
+            For other layers, from \(n_{l-1}\) down to \(n_1\)
+            $$\delta^{(l)} = \left((W^{(l)})^T \delta^{(l+1)}\right) \bullet f'(z^{(l)})$$
+          %li
+            Compute the desired partial derivatives
+            :plain
+              $$\begin{align}
+                \nabla_{W^{(l)}} J(W,b;x,y) &= \delta^{(l+1)} (a^{(l)})^T, \\
+                \nabla_{b^{(l)}} J(W,b;x,y) &= \delta^{(l+1)}.
+              \end{align}$$
+    %section.slide
+      %div
+        %h2 NN seems promising <small>in the late 1980s</small>
+        %img{src: 'assets/images/forward_propagation.png', height: 400}
+    %section.slide
+      %div
+        %h2 NN seems promising <small>in the late 1980s</small>
+        %img{src: 'assets/images/backpropagation.png', height: 400}
+    %section.slide
+      %div
+        %h2 Towards deeper NNs?
+        %center
+          %img{src: 'assets/images/DNN.png', height: 400}
+    %section.slide.section
+      %div
+        %h2 Why go deep?
+    %section.slide
+      %div
+        %h2 Visual cortex is hierarchical
+        %center
+          %img{src: 'assets/images/visual_cortex.jpg', height: 300}
+        %p David H. Hubel et al., The Journal of physiology, 1962<br />Nobel Prize in Physiology or Medicine (1981)
+    %section.slide
+      %div
+        %h2 Different levels of abstraction
+        %center
+          %img{src: 'assets/images/abstraction.png', height: 420}
+    %section.slide
+      %div
+        %h2 Efficient representation
+        %ul
+          %li
+            A deep architecture trades space for time (or breadth for depth)
+            %ul
+              %li more layers, more sequential computation
+              %li but less hardware (units), less parallel computation
+          %li
+            Example: N-bit parity
+            %ul
+              %li requires N-1 XOR gates in a tree of depth log(N).
+              %li requires an exponential number of gates if only 2 layers (Disjunctive normal form formula)
+    %section.slide.section
+      %div
+        %h2 Rolling in the deep
+    %section.slide
+      %div
+        %h2 Deep neural network (DNN)
+        %ul
+          %li
+            Simple to construct
+            %ul
+              %li Sigmoid nonlinearity for hidden layers
+              %li <b>Softmax</b> for the output layer
+          %li
+            Hard to train
+            %ul
+              %li Backpropagation does not work well
+              %li
+                Even worse than shallow neural networks
+                %img{src: 'assets/images/deep_net_without_pre-training.png', width: 500, style: 'margin:0 0 0 0'}
+    %section.slide
+      %div
+        %h2 Difficulty of training DNNs <small>(1990s)</small>
+        %ul
+          %li
+            Availability of data
+            %ul
+              %li Labeled data is often scarce
+              %li Not enough examples to fit the parameters of a complex model
+          %li
+            Local optima
+            %ul
+              %li A highly non-convex optimization problem
+              %li Easily gets stuck in local minima
+          %li
+            Diffusion of gradients
+            %ul
+              %li Below top few layers, correction signal is minimal
+    %section.slide
+      %div
+        %h2 Other models dominanted the world
+        %img{src: 'assets/images/ml_pipeline.png', width: 780}
+    %section.slide
+      %div
+        %h2 Hand-crafted visual features
+        %center
+          %img{src: 'assets/images/visual_features.jpg', height: 420}
+    %section.slide.section
+      %div
+        %h2 Stacked autoencoder
+    %section.slide
+      %div
+        %h2 Autoencoder
+        %center
+          %img{src: 'assets/images/AE.png', height: 420}
+    %section.slide
+      %div
+        %h2 Sparse autoencoder
+        %p A sparsity constraint is imposed
+        $$J_{sparse}(W,b)=J(W,b)+\beta\sum_{j=1}^{s_2}KL(\rho\|\hat\rho_j)$$
+        %p where \(\beta\) controls the weight, \(\hat\rho_j=\frac{1}{m}\sum_{i=1}^m \left[a_j^{(2)}(x^{(i)})\right]\), \(\rho\) is a sparsity parameter and \(KL(\rho\|\hat\rho_j)=\rho\log\frac{\rho}{\hat\rho_j} + (1-\rho)\log\frac{1-\rho}{1-\hat\rho_j}\) is the Kullback-leibler (KL) divergence
+    %section.slide
+      %div
+        %h2 Softmax regression
+        %p A generalization of logistic regression
+        :plain
+          $$h_\theta(\mathbf{x}^{(i)}) = \left[ \begin{aligned}
+            P(y^{(i)} =& 1 | \mathbf{x}^{(i)}, \theta) \\
+            P(y^{(i)} =& 2 | \mathbf{x}^{(i)}, \theta) \\
+            &\vdots \\\
+            P(y^{(i)} =& k | \mathbf{x}^{(i)}, \theta)
+            \end{aligned} \right] = \frac{1}{\sum_{j=1}^k e^{\boldsymbol\theta_j^T \mathbf{x}^{(i)}}}
+            \left[ \begin{aligned}
+            &e^{\boldsymbol\theta_1^T \mathbf{x}^{(i)}} \\
+            &e^{\boldsymbol\theta_2^T \mathbf{x}^{(i)}} \\
+            &\vdots \\\
+            &e^{\boldsymbol\theta_k^T \mathbf{x}^{(i)}}
+          \end{aligned} \right]$$
+    %section.slide
+      %div
+        %h2 Stacked auotencoder
+        %center
+          %img{src: 'assets/images/SAE.png'}
+    %section.slide
+      %div
+        %h2 Deep network training <small>Hinton, Science, 2006</small>
+        %ul
+          %li
+            Use unsupervised learning (greedy layer-wise training)
+            %ul
+              %li Allows abstraction to develop naturally from one layer
+              %li Help the network initialize with good parameters
+          %li
+            Perform supervised top-down training as final step
+            %ul
+              %li Refine the features (intermediate layers) so that they become more relevant to the task
+    %section.slide
+      %div
+        %center
+          %img{src: 'assets/images/hinton.2006.png', height: 500}
+    %section.slide
+      %div
+        %h2 Denoising autoencoder <small>Vincent et.al., 2008</small>
+        %img{src: 'assets/images/DAE.png'}
+        %p Further, we have stacked denoising autoencoders
+    %section.slide.section
+      %div
+        %h2 Time to have an overview
+    %section.slide
+      %div
+        %center
+          %img{src: 'assets/images/overview1.png', width: 780}
+    %section.slide
+      %div
+        %center
+          %img{src: 'assets/images/overview2.png', width: 780}
+    %section.slide
+      %div
+        %center
+          %img{src: 'assets/images/overview3.png', width: 780}
+    %section.slide.section
+      %div
+        %h2 DBM & DBN
+    %section.slide
+      %div
+        %h2 Restricted Boltzmann Machines
+        %center
+          %img{src: 'assets/images/RBM.jpg', height: 300}
+    %section.slide
+      %div
+        %h2 Deep Boltzman Machine <small>Salakhutdinov & Hinton, 2009</small>
+        %center
+          %img{src: 'assets/images/DBM.png', height: 420}
+    %section.slide
+      %div
+        %h2 DBMs vs DBNs
+        %center
+          %img{src: 'assets/images/DBMtoDBN.png', height: 360}
+    %section.slide
+      %div
+        %h2 Deep Belief Network <small>Hinton et.al., 2006</small>
+        %center
+          %img{src: 'assets/images/DBN.png', height: 420}
+    %section.slide.section
+      %div
+        %h2 Convolutional neural network
+    %section.slide
+      %div
+        %h2 Fully-connected neural net in high dim
+        %center
+          %img{src: 'assets/images/CNN_fully-connected.png', height: 420}
+    %section.slide
+      %div
+        %h2 Shared weights
+        %center
+          %img{src: 'assets/images/CNN_shared_weights.png'}
+    %section.slide
+      %div
+        %h2 Different kernels
+        %center
+          %img{src: 'assets/images/CNN_different_kernels.png', height: 420}
+    %section.slide
+      %div
+        %h2 Convolutional neural network
+        %center
+          %img{src: 'assets/images/CNN.png', height: 420}
+    %section.slide.section
+      %div
+        %h2 Deep Learning in Industry
+    %section.slide
+      %div
+        %h2 Microsoft
+        %ul
+          %li Speech recognition, 2009
+          %li Speech translation technology, 2012
+          %li Skype translator, 2014
+    %section.slide
+      %div
+        %h2 Demo <small>in Tianjin, Oct 2012</small>
+        %center
+          %video{width: 420, height: 320, controls: true}
+            %source{src: 'assets/videos/2012.msr.mp4', type: 'video/mp4'}
+            Your browser does not support the video tag.
+    %section.slide
+      %div
+        %h2 Demo <small>on WPC, Jul 2014</small>
+        %center
+          %img{src: 'assets/images/skype.jpg', width: 780}
+    %section.slide
+      %div
+        %h2 Google
+        %center
+          %img{src: 'assets/images/google.jpg', width: 150}
+        %ul
+          "Google Brain" project since 2011
+          %li Company-wise large-scale deep learning infrastructure
+          %li Big success on images, speech and natural language processing
+    %section.slide
+      %div
+        %h2 Baidu
+        %ul
+          %li Institute of Deep Learning (IDL), Jan 2013
+          %li
+            Baidu Shitu, Nov 2013
+            %center
+              %img{src: 'assets/images/baidu1.jpg', height: '313px'}
+    %section.slide
+      %div
+        %h2 Baidu
+        %ul
+          %li
+            Product image retriever, Aug 2014
+            %center
+              %img{src: 'assets/images/baidu2.jpg', height: '350px'}
+    %section.slide.section
+      %div
+        %h2 Challenges of Deep Learning
+    %section.slide
+      %div
+        %h2 Understanding
+        %ul
+          %li
+            Deep Learning involves non-convex loss functions
+            %ul
+              %li With non-convex losses, all bets are off
+              %li But to some of us all    interesting    learning is non convex
+
+          %li
+            Hard to prove anything about deep learning, yet theories emerge
+            %ul
+              %li Scattering transform, Mallat
+              %li Split Bregman   , Osher
+              %li Algebraic geometry of DBN, Morton
+              %li ...
+    %section.slide
+      %div
+        %h2 Scaling
+        %p A large scale problem has lots of training samples (>10M), lots of classes (>10K) and lots of input dimensions (>10K).
+        %ul
+          %li Layters can not be trained independently and in parallel
+          %li Model can have lots of parameters that may clog the network
+    %section.slide
+      %div
+        %h2 Model parallelism <small>Jeffrey Dean et al., 2012</small>
+        %center
+          %img{src: 'assets/images/model_parallelism.png', height: 420}
+    %section.slide
+      %div
+        %h2 Data parallelism <small>Jeffrey Dean et al., 2012</small>
+        %center
+          %img{src: 'assets/images/data_parallelism.png', width: 780}
+    %section.slide.reference
+      %div
+        %h2 Image credit
+        %ol{style: 'font-size: 80%;'}
+          %li IDL, Baidu Inc.<a href="http://idl.baidu.com/IDL-news-11.html">http://idl.baidu.com/IDL-news-11.html</a>
+          %li UFLDL tutorial, Stanford Univ. <a href="http://ufldl.stanford.edu/">http://ufldl.stanford.edu/</a>
+          %li Microsoft Research <a href="http://research.microsoft.com/apps/video/default.aspx?id=225021">http://research.microsoft.com/apps/video/default.aspx?id=225021</a>
+    %section.slide
+      %div
+        %h2 Reference
+        %ol{style: 'font-size: 55%;'}
+          %li Rumelhart, D.E., Hinton, G.E. and Williams, R.J. (1986) Learning representations by back-propagating errors, Nature, 323, 533-536.
+          %li Hubel, D.H. and Wiesel, T.N. (1962) Receptive fields, binocular interaction and functional architecture in the cat's visual cortex, The Journal of physiology, 160, 106.
+          %li Bengio, Yoshua, et al. "Greedy layer-wise training of deep networks." Advances in neural information processing systems 19 (2007): 153.
+          %li Hinton, G.E. (2006) Reducing the Dimensionality of Data with Neural Networks, Science, 313, 504-507.
+          %li Vincent, Pascal, et al. "Extracting and composing robust features with denoising autoencoders." Proceedings of the 25th international conference on Machine learning. ACM, 2008.
+          %li Salakhutdinov, Ruslan, and Geoffrey E. Hinton. "Deep boltzmann machines." International Conference on Artificial Intelligence and Statistics. 2009.
+          %li Hinton, Geoffrey, Simon Osindero, and Yee-Whye Teh. "A fast learning algorithm for deep belief nets." Neural computation 18.7 (2006): 1527-1554.
+          %li Dean, J., Corrado, G., Monga, R., Chen, K., Devin, M., Mao, M., Senior, A., Tucker, P., Yang, K., Le, Q.V. and Others (2012) Large scale distributed deep networks.., 1223-1231.
+    %section#End.slide
+      %div
+        %h2 The End<br /><small>Thanks for your time</small>
+    %section#SeeMore.slide.shout
+      %div
+        %h2 <a href="https://github.com/aidistan/dl-intro">See more on GitHub</a>
+
+    /
+      To hide progress bar from entire presentation
+      just remove “progress” element.
+    .progress
+      %div
+
+    %script{src: 'vendor/shower/core/shower.min.js'}
+    %script{src: 'assets/js/index.js'}
