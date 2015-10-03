@@ -13,75 +13,67 @@ module.exports = (grunt) ->
     clean:
       dist: ['<%= cfg.dist %>']
     sass:
+      options:
+        sourcemap: 'none'
+        style: 'compressed'
       dist:
-        options:
-          sourcemap: 'none'
-          style: 'compressed'
-        files: [
-          expand: true,
-          cwd: 'assets/css'
-          src: ['*.scss']
-          dest: '<%= cfg.dist %>/assets/css'
-          ext: '.css'
-        ]
+        expand: true,
+        cwd: 'assets/css'
+        src: ['*.scss']
+        dest: '<%= cfg.dist %>/assets/css'
+        ext: '.css'
     coffee:
       dist:
-        files: [
-          expand: true,
-          cwd: 'assets/js',
-          src: ['*.coffee'],
-          dest: '<%= cfg.dist %>/assets/js',
-          ext: '.js'
-        ]
+        expand: true,
+        cwd: 'assets/js',
+        src: ['*.coffee'],
+        dest: '<%= cfg.dist %>/assets/js',
+        ext: '.js'
     uglify:
       dist:
-        files: [
-          expand: true,
-          cwd: '<%= cfg.dist %>/assets/js',
-          src: '*.js',
-          dest: '<%= cfg.dist %>/assets/js'
-        ]
+        expand: true,
+        cwd: '<%= cfg.dist %>/assets/js',
+        src: '*.js',
+        dest: '<%= cfg.dist %>/assets/js'
     haml:
       dist:
-        files: [
-          expand: true,
-          cwd: '.'
-          src: ['*.haml']
-          dest: '<%= cfg.dist %>'
-          ext: '.html'
-        ]
+        expand: true,
+        cwd: '.'
+        src: ['*.haml']
+        dest: '<%= cfg.dist %>'
+        ext: '.html'
     copy:
       assets:
-        files: [
-          expand: true
-          cwd: 'assets/'
-          src: ['**', '!css/*.scss', '!js/*.coffee']
-          dest: '<%= cfg.dist %>/assets'
-        ]
+        expand: true
+        cwd: 'assets/'
+        src: ['**', '!css/*.scss', '!js/*.coffee']
+        dest: '<%= cfg.dist %>/assets'
       shower:
         files: [
           {
             src: 'vendor/shower/core/shower.min.js'
-            dest: '<%= cfg.dist %>/vendor/shower/core/shower.min.js'
+            dest: '<%= cfg.dist %>/assets/js/shower-core.min.js'
           },
           {
             src: 'vendor/shower/ribbon/styles/screen.css'
-            dest: '<%= cfg.dist %>/vendor/shower/ribbon/styles/screen.css'
+            dest: '<%= cfg.dist %>/assets/css/shower-ribbon.screen.css'
           }
           {
             src: 'vendor/shower/bright/styles/screen.css'
-            dest: '<%= cfg.dist %>/vendor/shower/bright/styles/screen.css'
+            dest: '<%= cfg.dist %>/assets/css/shower-bright.screen.css'
           }
           {
             expand: true
-            src: ['vendor/shower/bright/fonts/*']
-            dest: '<%= cfg.dist %>'
+            cwd: 'vendor/shower/bright/fonts/'
+            src: '**'
+            dest: '<%= cfg.dist %>/assets/fonts/'
             filter: 'isFile'
           }
           {
             expand: true
-            src: ['vendor/shower/ribbon/fonts/*']
-            dest: '<%= cfg.dist %>'
+            cwd: 'vendor/shower/ribbon/fonts/'
+            src: '**'
+            dest: '<%= cfg.dist %>/assets/fonts/'
             filter: 'isFile'
           }
         ]
@@ -138,7 +130,7 @@ module.exports = (grunt) ->
     %meta{charset: 'utf-8'}
     %meta{name: 'viewport', content: 'width=792, user-scalable=no'}
     %meta{'http-equiv' => 'x-ua-compatible', content: 'ie=edge'}
-    %link{rel: 'stylesheet', href: 'vendor/shower/ribbon/styles/screen.css'}
+    %link{rel: 'stylesheet', href: 'assets/css/shower-ribbon.screen.css'}
     %link{rel: 'stylesheet', href: 'assets/css/#{slide}.css'}
 
   %body.list
@@ -160,7 +152,7 @@ module.exports = (grunt) ->
     .progress
       %div
 
-    %script{src: 'vendor/shower/core/shower.min.js'}
+    %script{src: 'assets/js/shower-core.min.js'}
     %script{src: 'assets/js/#{slide}.js'}
 
         """
