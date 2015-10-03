@@ -1,5 +1,5 @@
-dl-intro
-========
+# Slide : dl-intro
+
 A shallow introdcution to deep learning.
 
 ## Prelude
@@ -10,10 +10,10 @@ A shallow introdcution to deep learning.
 - A mathematical model to mimic biological neurons
 - Map multiple inputs to one output
 
-### Activition function 
+### Activition function
 
 - Sigmoid function is a common choice
-- Other choices include 
+- Other choices include
 	- tanh function \\(f(z) = \frac{\exp(x)-\exp(-x)}{\exp(x)+\exp(-x)}\\)
     - rectified linear function \\(f(z) = \max(0,x)\\)
 
@@ -68,7 +68,7 @@ A shallow introdcution to deep learning.
 
 ### Efficient representation
 
-## Rolling in the deep 
+## Rolling in the deep
 
 Rolling in the deep (在黑暗中翻滚)
 
